@@ -4,19 +4,33 @@ import passport from './passport-config.js';
 import bcrypt from 'bcryptjs';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const app = express();
 
 
 //help manage sessions
-app.use(session({
-    secret: 'your_secret_key',
+app.use(
+  session({
+    secret: 'your_secret_key', // Keep this secret secure
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, // Do not save empty sessions
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000
-    }
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      //httpOnly: true, // Prevent client-side JS access
+      //secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      //sameSite: 'strict', // Prevent CSRF
+    },
+  })
+);
+
+  app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true, // Allow cookies
   }));
+  
+
+  //app.use(cors());
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,8 +69,17 @@ app.post('/register', async (req, res) => {
 });
 
 //login
-app.post('/login',passport.authenticate('local'), (req, res) => {
-    res.status(200).json({ message: 'Login successful!', user: req.user });
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+
+    req.login(user, (loginErr) => {
+      if (loginErr) return next(loginErr);
+      console.log(user);
+      res.status(200).json({ message: 'Login successful!', user });
+    });
+  })(req, res, next);
 });
 
 
@@ -79,23 +102,31 @@ const isAuthenticated = (req, res, next) => {
 
 
 //logout
-app.get('/logout', isAuthenticated, (req, res) => {
-    if (isAuthenticated){
-    req.logout();
-    res.status(200).json({ message: 'Logout successful!' });
-    }else
-    res.status(401).json({ message: 'Not logged in!' });
-  });
+app.get('/logout', (req, res) => {
+  if (req.isAuthenticated && req.isAuthenticated()) { // Check if user is logged in
+    req.logout((err) => { // Use the logout method with a callback to handle errors
+      if (err) {
+        console.error("Error during logout:", err);
+        return res.status(500).json({ message: "Logout failed. Please try again." });
+      }
+      res.clearCookie('connect.sid'); // Clear session cookie if applicable
+      return res.status(200).json({ message: "Logout successful!" });
+    });
+  } else {
+    res.status(401).json({ message: "Already logged out. Please log in." });
+  }
+});
 
 
   app.get('/profile',isAuthenticated, (req, res) => {
+    console.log(req.user);
     res.json({ message: 'Welcome to your profile!', user: req.user });
   });
 
 
 
 // Route to getting all reviews
-  app.get('/reviews',isAuthenticated, async (req, res) => {
+  app.get('/reviews', async (req, res) => {
 
       try {
           const [results] = await db.execute('SELECT * FROM reviews'); // Adjust table name
@@ -139,6 +170,13 @@ app.post('/reviews/post', isAuthenticated, async (req, res) => {
     }
   });
 
+  app.get('/checkAuth', isAuthenticated, (req, res) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    res.json({ message: 'Authenticated', user: req.user });
+  });
+  
 
 
 // Error-Handling Middleware
@@ -159,5 +197,13 @@ process.on('SIGINT', async () => {
   });
 
 
+
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
+// I need to learn how to work with JWT tokens and understand how they work and how to implement
+// it into my project structure 
+// and then I can work on my front end

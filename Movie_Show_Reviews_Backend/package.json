@@ -13,10 +13,13 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "movie_show_reviews_backend": "file:",
     "mysql2": "^3.11.5",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react-router-dom": "^7.1.0"
   }
 }
