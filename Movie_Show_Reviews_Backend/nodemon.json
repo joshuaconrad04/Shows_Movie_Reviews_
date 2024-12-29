@@ -1,0 +1,6 @@
+{
+    "watch": ["."],
+    "ext": "js,json",
+    "ignore": ["../Movie_Show_Reviews_Frontend"]
+  }
+  

@@ -1,12 +1,15 @@
 import { useState, useEffect, React} from "react";
 import { Link, } from "react-router-dom";
 import axios from "axios";
+import Review from "./Review";
+import NavBar from "./Navbar";
 
 const Home = () => {
 const URL = "http://localhost:3000";
 
 const [auth, setAuth] = useState(null); // null means loading, false means not authenticated
 const [error, setError] = useState(null); // to display error messages
+const [activeUser, setActiveUser] = useState(null);
 
   // Check authentication status when the component mounts
   useEffect(() => {
@@ -14,6 +17,8 @@ const [error, setError] = useState(null); // to display error messages
       .get("http://localhost:3000/checkAuth", { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
+          setActiveUser(response.data.user);
+          console.log(activeUser);
           setAuth(true); // user is authenticated
         } else {
           setAuth(false); // user is not authenticated
@@ -39,6 +44,7 @@ const fetchReviews = async () => {
       throw new Error("Network response was not ok");
     }
     const reviews = await response.json();
+    console.log("Fetched Reviews:", reviews); 
     setReviews(reviews);
   }catch (err) {
     console.log(err);
@@ -50,34 +56,23 @@ fetchReviews();
 
   return (
     <div>
-      <Link to="/">Home</Link>
-      {/* Links replace anchor tags */}
-      
-      {auth ? (
-        <>
-          <Link to="/profile">Profile</Link>
-          <Link to="/logout">Logout</Link>
-        </>
-      ) : (
-        <>
-          <Link to="/signup">Signup </Link>
-          <Link to="/login">Login</Link>
-        </>
-      )}      
-      
+      {/* Links replace anchor tags */}      
+      <NavBar auth={auth} />
     <br/>
 
     {ReviewsList.map((review) => {
   return (
-    <div key={review.reviewID}> {/* Add the key here */}
-      <h1>{review.title}</h1>
-      <p>{review.review}</p>
-      <ol>
-        <li>{review.CreatedBy}</li>
-        <li>{review.Rating}</li>
-        <li>{review.Genre}</li>
-        <li>{review.imageUrl}</li>
-      </ol>
+    <div key={review.ReviewID}> {/* Add the key here */}
+      <Review
+        title={review.title}
+        Rating={review.Rating}
+        CreatedBy={review.CreatedBy}
+        Genre={review.Genre}
+        imageUrl={review.imageUrl}
+        review={review.description}
+        auth={auth}
+        id={review.ReviewID}
+      />
     </div>
   );
 })}

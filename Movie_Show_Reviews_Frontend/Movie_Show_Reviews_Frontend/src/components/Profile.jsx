@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link} from 'react-router-dom';
+import NavBar from "./Navbar";
+import styles from "../styles/BasicStyles.module.css";
 
 function Profile() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
-
+  const [auth, setAuth] = useState(null); // null means loading, false means not authenticated
   // Fetch profile data from backend
   useEffect(() => {
     axios
-      .get("http://localhost:3000/profile", { withCredentials: true })
+      .get("http://localhost:3000/checkAuth", { withCredentials: true })
       .then((response) => {
-        console.log("Response data:", response.data); // Adjust to your backend structure
-        setUserData(response.data); // Assuming the response contains user data directly
+        if (response.status === 200) {
+          setUserData(response.data);
+          setAuth(true); // user is authenticated
+        } else {
+          setAuth(false); // user is not authenticated
+        }
       })
       .catch((err) => {
-        console.error("Error fetching profile:", err);
-        setError("Failed to load profile data. Please try again.");
+        setAuth(false); // if error occurs, assume user is not authenticated
+        setError("Failed to load authentication status.");
       });
   }, []);
+
+
+
 
   // Handle error
   if (error) {
@@ -33,9 +42,8 @@ function Profile() {
   // Render profile data
   return (
     <>
-      <h1>Welcome to Profile</h1>
-      <h2>{userData.user.Username}</h2> {/* Assuming `Username` is a property */}
-      <h3>{userData.user.UserID}</h3> {/* Assuming `UserID` is a property */}
+     <NavBar auth={auth} />
+      <h1>Welcome to your profile {userData.user.Username}</h1>
       <Link to="/logout"><button>Logout</button></Link>
     </>
   );

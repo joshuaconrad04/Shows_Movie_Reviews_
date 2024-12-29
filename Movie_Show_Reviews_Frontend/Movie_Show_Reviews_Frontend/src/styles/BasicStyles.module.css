@@ -1,0 +1,14 @@
+h1,h2,h3,p{
+    color:white
+}
+
+
+button{
+    background-color: grey;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 50px;
+    cursor: pointer;
+}

@@ -3,6 +3,8 @@ import { Form, Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import NavBar from './Navbar';
+import styles from "../styles/Signup.module.css";
 
 const Signup = () => {
 
@@ -52,10 +54,11 @@ const handleSubmit = async (event) => {
 
   return (
     <div>
-      <h1>Signup</h1>
-      <Link to="/login">Login</Link>
+       <NavBar auth={false} />
 
-<form onSubmit={handleSubmit}>
+       
+<form onSubmit={handleSubmit} className={styles.form}>
+<h1 >Signup</h1>
        <TextField
        id="login-field"
        label="username"

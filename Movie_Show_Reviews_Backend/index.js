@@ -139,7 +139,7 @@ app.get('/logout', (req, res) => {
 
 
 // Example Route: Add a Review
-app.post('/reviews/post', isAuthenticated, async (req, res) => {
+app.post('/reviews', isAuthenticated, async (req, res) => {
     const createdBy=req.user.UserID;
     const { title, description, rating, genre, imgUrl} = req.body; 
     console.log(`Title: ${title}, Description: ${description}, Rating: ${rating}, Genre: ${genre}, Image URL: ${imgUrl} , User ID: ${createdBy}`);
@@ -149,6 +149,7 @@ app.post('/reviews/post', isAuthenticated, async (req, res) => {
         'INSERT INTO reviews (title, description, Rating, Genre, imageUrL, createdBy) VALUES (?,?,?,?,?,?)',
         [title, description, rating, genre, imgUrl, createdBy]
       );
+      console.log(result);
       res.status(201).json({ message: 'Review added!' });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -174,7 +175,15 @@ app.post('/reviews/post', isAuthenticated, async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    res.json({ message: 'Authenticated', user: req.user });
+    res.json({ message: 'Authenticated', user: 
+      
+      {UserID : req.user.UserID,
+      Username : req.user.Username,
+      ProfilePic : req.user.ProfilePic,
+      UpdatedAt : req.user.UpdatedAt,
+      CreatedAt : req.user.CreatedAt,
+      }
+     });
   });
   
 

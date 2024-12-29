@@ -2,7 +2,8 @@ import {React, useState} from "react";
 import axios from "axios";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
-
+import NavBar from "./Navbar";
+import styles from "../styles/Login.module.css";
 
 
 
@@ -58,10 +59,11 @@ const handleSubmit = async (event) => {
 return(
 
 <div>
-  <h1>Login</h1>
-
+  <NavBar auth={false} />
 
 <form onSubmit={handleSubmit}>
+
+<h1 className={styles.h1} >Login</h1>
   <TextField
   id="username_field"
   label="username"

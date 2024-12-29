@@ -6,6 +6,8 @@ import Signup from "./components/Signup";
 import Profile from "./components/profile";
 import NotFound from "./components/NotFound";
 import Logout from "./components/Logout";
+import AddNewReview from "./components/addNewReview";
+import DeleteEditReview from "./components/DeleteEditReview";
 
 
 function App() {
@@ -17,11 +19,11 @@ function App() {
           <Route path="/signup" element={<Signup />} /> {/* Signup Page */}
           <Route path="/profile" element={<Profile />} /> {/* Profile Page */}
           <Route path="/Logout" element={<Logout />} />
+          <Route path="/addNewReview" element={<AddNewReview />} />
+          <Route path="/deleteEditReview" element={<DeleteEditReview />} />
           <Route path="*" element={<NotFound/>} />
-
-          
         </Routes>
-        </>
+    </>
   );
 }
 

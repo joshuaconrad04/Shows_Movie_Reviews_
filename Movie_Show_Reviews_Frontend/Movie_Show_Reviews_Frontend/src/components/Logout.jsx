@@ -1,6 +1,9 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from "./Navbar";
+import styles from "../styles/BasicStyles.module.css";
+
 
 function Logout() {
   const [auth, setAuth] = useState(null); // null means loading, false means not authenticated
@@ -51,9 +54,14 @@ function Logout() {
 
   return (
     <>
+     <NavBar auth={auth} />
       {auth ? (
+        <>
+        <h2> Click Button to Logout</h2>
         <button onClick={handleLogout}>Logout</button> // show logout button if authenticated
+        </>
       ) : (
+        
         <Link to="/login">Login</Link> // show login link if not authenticated
       )}
     </>

@@ -1,0 +1,70 @@
+/* Basic styling for the form */
+.reviewForm {
+    background-color: #1f1f1f; /* Dark background */
+    color: #fff; /* White text */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Styling for each form element */
+  .reviewForm label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: bold;
+    color: #ddd;
+  }
+  
+  .reviewForm input,
+  .reviewForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .reviewForm input:focus,
+  .reviewForm textarea:focus {
+    border-color: #008cba; /* Light blue border on focus */
+    outline: none;
+    background-color: #444; /* Slightly lighter background */
+  }
+  
+  .reviewForm textarea {
+    resize: vertical; /* Allow vertical resizing of the textarea */
+  }
+  
+  /* Styling for the submit button */
+  .reviewForm button {
+    background-color: #008cba; /* Blue color */
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .reviewForm button:hover {
+    background-color: #005f6a; /* Darker blue on hover */
+  }
+  
+  .reviewForm button:active {
+    background-color: #004749; /* Even darker on active click */
+  }
+  
+  /* Styling for the form container */
+  .reviewForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
