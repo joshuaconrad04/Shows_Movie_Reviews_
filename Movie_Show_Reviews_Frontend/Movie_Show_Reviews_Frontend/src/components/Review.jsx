@@ -8,10 +8,7 @@ import axios from "axios";
 function Review(props){
 
 
-
-
   const DeleteReview = (id) => {
-
 
     axios
       .delete(`http://localhost:3000/reviews/${id}`, {withCredentials: true})
@@ -38,7 +35,7 @@ function Review(props){
 
       <h2>{props.title}</h2>
       <Stars rating= {props.Rating}/>
-      <h4> Written By: {props.CreatedBy}</h4>
+      {/* <h4> Written By: {response.data.Username}</h4> */}
       <h4>Genre: {props.Genre}</h4>
       <img src={props.imageUrl} className={styles.pic}></img>
       </div>

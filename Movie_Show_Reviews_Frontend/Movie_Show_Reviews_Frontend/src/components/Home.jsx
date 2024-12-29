@@ -66,7 +66,7 @@ fetchReviews();
       <Review
         title={review.title}
         Rating={review.Rating}
-        CreatedBy={review.CreatedBy}
+        // CreatedBy={review.CreatedBy}
         Genre={review.Genre}
         imageUrl={review.imageUrl}
         review={review.description}
