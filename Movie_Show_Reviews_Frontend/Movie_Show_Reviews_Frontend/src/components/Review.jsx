@@ -40,11 +40,13 @@ function Review(props){
       <Stars rating= {props.Rating}/>
       <h4> Written By: {props.CreatedBy}</h4>
       <h4>Genre: {props.Genre}</h4>
+      <img src={props.imageUrl} className={styles.pic}></img>
       </div>
 
       <div className={styles.content}>
 
       <h4>{props.review}</h4>
+
 
       {props.auth && (
         <div className={styles.delete}>

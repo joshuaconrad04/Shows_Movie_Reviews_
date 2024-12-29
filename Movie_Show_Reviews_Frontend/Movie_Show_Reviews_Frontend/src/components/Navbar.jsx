@@ -21,6 +21,7 @@ const NavBar = ({ auth }) => {
             <li className={styles.navItem}><Link to="/logout">Logout</Link></li>
             {/* <li className={styles.navItem}><Link to="/deleteEditReview">Delete Review</Link></li> */}
             <li className={styles.navItem}><Link to="/addNewReview">Add New Review</Link></li>
+            
           </>
         ) : (
           // Links displayed when not authenticated
