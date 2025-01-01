@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  backend:
+    build: 
+      context: ./Movie_Show_Reviews_Backend
+    image: movie-show-reviews-backend # Valid service name
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: Boomboom#1212
+      DB_NAME: Shows_Movie_Reviews_
+    depends_on:
+      - mysql
+
+  frontend:
+    build: 
+      context: ./Movie_Show_Reviews_Frontend/Movie_Show_Reviews_Frontend
+    image: movie-show-reviews-frontend # Valid service name
+    ports:
+      - "1573:1573"
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000 # Hardcoding for containerized environment
+    depends_on:
+      - backend
+    command: npm run dev # For development with Vite
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

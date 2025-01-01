@@ -25,7 +25,7 @@ app.use(
 );
 
   app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
+    origin: "*", // Frontend URL
     credentials: true, // Allow cookies
   }));
   

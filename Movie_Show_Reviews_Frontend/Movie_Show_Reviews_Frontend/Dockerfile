@@ -1,20 +1,18 @@
-# Build the React app with Node.js v20.14.0
-FROM node:20.14.0 as build
+# Use Node.js v20.14.0
+FROM node:20
 
-# Set working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json ./
+# Install dependencies
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy the app and build it
+# Copy the entire app
 COPY . .
-RUN npm run build
 
-# Use Nginx to serve the build
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# Expose Vite's dev server port
+EXPOSE 5173
 
-# Expose the default Nginx port
-EXPOSE 80
+# Run Vite dev server in host mode
+CMD ["npm", "run", "dev", "--", "--host"]
