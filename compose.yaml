@@ -4,38 +4,44 @@ services:
   backend:
     build: 
       context: ./Movie_Show_Reviews_Backend
-    image: movie-show-reviews-backend # Valid service name
+    image: movie-show-reviews-backend
     ports:
       - "3000:3000"
     environment:
       DB_HOST: mysql
       DB_USER: root
       DB_PASSWORD: Boomboom#1212
-      DB_NAME: Shows_Movie_Reviews_
+      DB_NAME: shows_movie_reviews_
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
 
   frontend:
     build: 
       context: ./Movie_Show_Reviews_Frontend/Movie_Show_Reviews_Frontend
-    image: movie-show-reviews-frontend # Valid service name
+    image: movie-show-reviews-frontend
     ports:
-      - "1573:1573"
+      - "5173:5173"
     environment:
-      VITE_API_BASE_URL: http://localhost:5000 # Hardcoding for containerized environment
+      VITE_API_BASE_URL: http://localhost:3000
     depends_on:
       - backend
-    command: npm run dev # For development with Vite
 
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: Boomboom#1212
+      MYSQL_DATABASE: shows_movie_reviews_
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:

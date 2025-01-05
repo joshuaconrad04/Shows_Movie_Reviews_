@@ -1,0 +1,21 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 400px;
+    padding: 2rem;
+    border: 1px solid #5c0000;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: #5c0000 1px 1px 10px;
+}
+
+form h1{
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    color:black;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400; /* Adjust for thickness */
+
+}
